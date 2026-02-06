@@ -11,7 +11,7 @@ pipeline {
     stage('Deploy to App Server') {
     steps {
         sh '''
-        ssh -o StrictHostKeyChecking=no ubuntu@172.31.23.172 << EOF
+        ssh -i linux_server_key.pem ubuntu@172.31.23.172 << EOF
             if [ ! -d Student-Registration-flask-app-using-Jenkins ]; then
                 git clone https://github.com/iamonkarlad/Student-Registration-flask-app-using-Jenkins.git
             fi
