@@ -10,7 +10,7 @@ pipeline {
 
     stage('Deploy to App Server') {
     steps {
-        sshagent(credentials: ['student-app-key']) {
+        sshagent(credentials: ['student-key']) {
             sh '''
             ssh -o StrictHostKeyChecking=no ubuntu@172.31.23.172 << 'EOF'
                 set -e
