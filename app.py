@@ -6,9 +6,9 @@ app = Flask(__name__)
 # Database configuration
 db_config = {
     'host': 'db',
-    'user': 'root',
-    'password': 'password',
-    'database': 'studentsdb'
+    'user': 'flaskuser',
+    'password': 'flaskpass',
+    'database': 'studentdb'
 }
 
 # Home page: Registration form
