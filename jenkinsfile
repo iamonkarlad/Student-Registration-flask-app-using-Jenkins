@@ -8,34 +8,35 @@ pipeline {
    }
   }
 
-    stage('Deploy to App Server') {
+stage('Deploy to App Server') {
     steps {
         sshagent(credentials: ['student-key']) {
-            sh '''
-            ssh -o StrictHostKeyChecking=no ubuntu@172.31.23.172 << 'EOF'
-                set -e
+            sh '''#!/bin/bash
+ssh -o StrictHostKeyChecking=no ubuntu@172.31.23.172 << 'EOF'
+set -e
 
-                if [ ! -d Student-Registration-flask-app-using-Jenkins ]; then
-                    git clone https://github.com/iamonkarlad/Student-Registration-flask-app-using-Jenkins.git
-                fi
+if [ ! -d Student-Registration-flask-app-using-Jenkins ]; then
+    git clone https://github.com/iamonkarlad/Student-Registration-flask-app-using-Jenkins.git
+fi
 
-                cd Student-Registration-flask-app-using-Jenkins
+cd Student-Registration-flask-app-using-Jenkins
 
-                # Create venv if not exists
-                if [ ! -d venv ]; then
-                    python3 -m venv venv
-                fi
+if [ ! -d venv ]; then
+    python3 -m venv venv
+fi
 
-                source venv/bin/activate
-                pip install --upgrade pip
-                pip install -r requirements.txt
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
 
-                pkill -f app.py || true
-                nohup venv/bin/python app.py > app.log 2>&1 &
-            EOF
-            '''
+pkill -f app.py || true
+nohup venv/bin/python app.py > app.log 2>&1 &
+
+EOF
+'''
         }
     }
 }
+
     }
     }   
