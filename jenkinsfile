@@ -1,0 +1,23 @@
+pipeline {
+ agent any
+
+ stages {
+  stage('Clone Code') {
+   steps {
+    git 'https://github.com/iamonkarlad/Student-Registration-flask-app-using-Jenkins.git'
+   }
+  }
+
+  stage('Install Dependencies') {
+   steps {
+    sh 'pip3 install -r requirements.txt'
+   }
+  }
+
+  stage('Run Application') {
+   steps {
+    sh 'python3 app.py &'
+   }
+  }
+ }
+}
