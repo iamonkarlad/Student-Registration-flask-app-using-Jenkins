@@ -8,16 +8,22 @@ pipeline {
    }
   }
 
-  stage('Install Dependencies') {
-   steps {
-    sh 'pip3 install -r requirements.txt'
-   }
-  }
+       stage('Deploy to App Server') {
+            steps {
+                sh """
+                ssh ubuntu@172.31.23.172 '
+                    if [ ! -d Student-Registration-flask-app-using-Jenkins ]; then
+                        git clone https://github.com/iamonkarlad/Student-Registration-flask-app-using-Jenkins.git
+                    fi
 
-  stage('Run Application') {
-   steps {
-    sh 'python3 app.py &'
-   }
-  }
- }
+                    cd Student-Registration-flask-app-using-Jenkins
+                    git pull origin main
+                    pip3 install -r requirements.txt
+                    pkill -f app.py || true
+                    nohup python3 app.py > app.log 2>&1 &
+                '
+                """
+            }
+        }
+    }
 }
